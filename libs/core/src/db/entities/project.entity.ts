@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Customer } from './customer.entity';
+import { Client } from './client.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
 
@@ -33,10 +33,10 @@ export class Project {
   description: string | null;
 
   @Column({ type: 'char', length: 26, nullable: true })
-  customerId?: string | null;
+  clientId?: string | null;
 
-  @ManyToOne(() => Customer, (customer) => customer.id)
-  customer?: Customer | null;
+  @ManyToOne(() => Client, (client) => client.id)
+  client?: Client | null;
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { BankTransaction } from './bank-transaction.entity';
-import { Customer } from './customer.entity';
+import { Client } from './client.entity';
 import { Invoice } from './invoice.entity';
 import { Organization } from './organization.entity';
 
@@ -76,10 +76,10 @@ export class Deposit {
   notes?: string | null;
 
   @Column({ type: 'char', length: 26, nullable: true })
-  customerId?: string | null;
+  clientId?: string | null;
 
-  @ManyToOne(() => Customer, (customer) => customer.id)
-  customer?: Customer | null;
+  @ManyToOne(() => Client, (client) => client.id)
+  client?: Client | null;
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: string;

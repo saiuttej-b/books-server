@@ -7,10 +7,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { convertToNumber } from '../../utils';
+import { Client } from './client.entity';
 import { ExpenseType } from './expense-type.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
-import { Vendor } from './vendor.entity';
 
 @Entity({ name: 'expenses' })
 export class Expense {
@@ -54,10 +54,10 @@ export class Expense {
   notes?: string | null;
 
   @Column({ type: 'char', length: 26, nullable: true })
-  vendorId?: string | null;
+  clientId?: string | null;
 
-  @ManyToOne(() => Vendor, (vendor) => vendor.id)
-  vendor?: Vendor | null;
+  @ManyToOne(() => Client, (client) => client.id)
+  client?: Client | null;
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: string;

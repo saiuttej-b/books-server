@@ -11,9 +11,14 @@ import { Address } from './address.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
 
-@Entity({ name: 'vendors' })
-@Index('vendor_org_name_idx', ['organizationId', 'name'], { unique: true })
-export class Vendor {
+export const CustomerTypes = {
+  Business: 'Business',
+  Individual: 'Individual',
+};
+
+@Entity({ name: 'clients' })
+@Index('client_org_name_idx', ['organizationId', 'name'], { unique: true })
+export class Client {
   @PrimaryColumn({ type: 'char', length: 26 })
   id: string;
 
@@ -45,7 +50,7 @@ export class Vendor {
   isActive: boolean;
 
   /**
-   * Vendor GST Related Fields
+   * Client GST Related Fields
    */
 
   @Column({ type: 'citext', nullable: false })
@@ -67,7 +72,7 @@ export class Vendor {
   businessTradeName?: string | null;
 
   /**
-   * Custom Address fields
+   * Client Address fields
    */
 
   @Column(() => Address)
@@ -88,8 +93,8 @@ export class Vendor {
   docs?: MediaFile[] | null;
 }
 
-@Entity({ name: 'vendor_contact_persons' })
-export class VendorContactPerson {
+@Entity({ name: 'client_contact_persons' })
+export class ClientContactPerson {
   @PrimaryColumn({ type: 'char', length: 26 })
   id: string;
 
@@ -100,10 +105,10 @@ export class VendorContactPerson {
   organization?: Organization | null;
 
   @PrimaryColumn({ type: 'char', length: 26 })
-  vendorId: string;
+  clientId: string;
 
-  @ManyToOne(() => Vendor, (vendor) => vendor.id)
-  vendor?: Vendor | null;
+  @ManyToOne(() => Client, (client) => client.id)
+  client?: Client | null;
 
   @Column({ type: 'char', length: 5, nullable: false })
   salutation: string;
