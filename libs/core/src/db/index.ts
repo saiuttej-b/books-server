@@ -1,4 +1,5 @@
 export * from './entities/address.entity';
+export * from './entities/auth-token.entity';
 export * from './entities/bank-transaction.entity';
 export * from './entities/bank.entity';
 export * from './entities/client.entity';
@@ -11,6 +12,7 @@ export * from './entities/organization-user.entity';
 export * from './entities/organization.entity';
 export * from './entities/project.entity';
 export * from './entities/quote.entity';
-export * from './entities/auth-token.entity';
 export * from './entities/user.entity';
 export * from './entities/withdrawal.entity';
+
+export * from './db-config.module';

@@ -53,10 +53,10 @@ export class Bank {
   @Column({ type: 'citext', nullable: true })
   country?: string | null;
 
-  @Column({ type: 'citext', length: 6, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   pinCode?: string | null;
 
-  @Column({ type: 'citext', length: 255, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   accountHolderName?: string | null;
 
   @CreateDateColumn({ type: 'timestamptz' })

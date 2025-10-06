@@ -122,25 +122,25 @@ export class ClientContactPerson {
   @Column({ type: 'citext', nullable: true })
   email?: string | null;
 
-  @Column({ type: 'citext', length: 5, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   mobileCountryCode?: string | null;
 
-  @Column({ type: 'citext', length: 20, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   mobile?: string | null;
 
-  @Column({ type: 'citext', length: 5, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   workPhoneCountryCode?: string | null;
 
-  @Column({ type: 'citext', length: 20, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   workPhone?: string | null;
 
   @Column({ type: 'boolean', default: false })
   isPrimaryContact: boolean;
 
-  @Column({ type: 'citext', length: 127, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   designation?: string | null;
 
-  @Column({ type: 'citext', length: 127, nullable: true })
+  @Column({ type: 'citext', nullable: true })
   department?: string | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
