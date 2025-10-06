@@ -11,6 +11,7 @@ import { convertToNumber } from '../../utils';
 import { Client, ClientContactPerson } from './client.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
+import { Project } from './project.entity';
 
 export type QuoteOtherDetailsType = {
   contactPersons?: ClientContactPerson[] | null;
@@ -33,6 +34,12 @@ export class Quote {
 
   @ManyToOne(() => Client, (client) => client.id)
   client?: Client | null;
+
+  @Column({ type: 'char', length: 26, nullable: false })
+  projectId: string;
+
+  @ManyToOne(() => Project, (project) => project.id)
+  project?: Project | null;
 
   @Column({ type: 'citext', nullable: false })
   quoteNo: string;

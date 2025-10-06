@@ -97,7 +97,7 @@ export class DepositInvoice {
   @ManyToOne(() => Deposit, (deposit) => deposit.id)
   deposit?: Deposit | null;
 
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   invoiceId: string;
 
   @ManyToOne(() => Invoice, (invoice) => invoice.id)
