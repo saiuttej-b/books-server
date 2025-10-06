@@ -12,8 +12,8 @@ import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
 
 export const CustomerTypes = {
-  Business: 'Business',
-  Individual: 'Individual',
+  BUSINESS: 'BUSINESS',
+  INDIVIDUAL: 'INDIVIDUAL',
 };
 
 @Entity({ name: 'clients' })

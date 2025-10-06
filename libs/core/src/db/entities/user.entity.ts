@@ -2,9 +2,9 @@ import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColum
 import { MediaFile } from './media-file.entity';
 
 export const Genders = {
-  Male: 'Male',
-  Female: 'Female',
-  Other: 'Other',
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER',
 };
 
 @Entity({ name: 'users' })

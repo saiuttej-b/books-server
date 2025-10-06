@@ -3,9 +3,9 @@ import { Organization } from './organization.entity';
 import { User } from './user.entity';
 
 export const OrganizationUserRoles = {
-  Owner: 'Owner',
-  Admin: 'Admin',
-  Member: 'Member',
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
 };
 
 @Entity({ name: 'organization_users' })

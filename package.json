@@ -8,28 +8,35 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
+    "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/books/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/books/test/jest-e2e.json"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.0",
     "@nestjs/typeorm": "^11.0.0",
+    "@saiuttej/nestjs-encryptions": "^0.1.0",
+    "@saiuttej/nestjs-request-store": "^0.1.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "compression": "^1.8.1",
+    "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.12.17",
+    "lodash": "^4.17.21",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "sharp": "^0.34.3",
     "typeorm": "^0.3.26",
     "typeorm-naming-strategies": "^4.1.0",
-    "ulidx": "^2.4.1"
+    "ulidx": "^2.4.1",
+    "xlsx": "^0.18.5",
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -37,8 +44,12 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/compression": "^1.8.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/lodash": "^4.17.20",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
@@ -77,7 +88,9 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/core(|/.*)$": "<rootDir>/libs/core/src/$1"
+      "^@app/core(|/.*)$": "<rootDir>/libs/core/src/$1",
+      "^@app/infra(|/.*)$": "<rootDir>/libs/infra/src/$1",
+      "^@app/integrations(|/.*)$": "<rootDir>/libs/integrations/src/$1"
     }
   }
 }
