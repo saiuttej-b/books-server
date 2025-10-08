@@ -1,11 +1,4 @@
-import {
-  AfterLoad,
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { AfterLoad, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'media_files' })
 @Index('media_files_key', ['key'], { unique: true })
@@ -40,7 +33,7 @@ export class MediaFile {
   @Column({ type: 'jsonb', nullable: true })
   metadata?: Record<string, any>;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   url?: string;

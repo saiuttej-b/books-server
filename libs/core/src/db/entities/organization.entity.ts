@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { MediaFile } from './media-file.entity';
 import { User } from './user.entity';
 
@@ -29,10 +21,10 @@ export class Organization {
   @ManyToOne(() => User, (user) => user.id)
   createdBy?: User | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   docs?: MediaFile[] | null;

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 import { MediaFile } from './media-file.entity';
 
 export const Genders = {
@@ -28,10 +28,10 @@ export class User {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   profilePicture?: MediaFile;

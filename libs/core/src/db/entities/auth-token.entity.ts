@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 export const AuthTokenTypes = {
   REFRESH_TOKEN: 'REFRESH_TOKEN',
@@ -25,9 +25,9 @@ export class AuthToken {
   @Column({ type: 'boolean', default: false, nullable: false })
   revoked: boolean;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 }

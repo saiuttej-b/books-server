@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Client } from './client.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
@@ -41,10 +33,10 @@ export class Project {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   docs?: MediaFile[] | null;

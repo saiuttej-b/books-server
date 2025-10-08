@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { BankTransaction } from './bank-transaction.entity';
 import { Expense } from './expense.entity';
 import { MediaFile } from './media-file.entity';
@@ -65,10 +57,10 @@ export class Withdrawal {
   @Column({ type: 'text', nullable: true })
   notes?: string | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   docs?: MediaFile[] | null;
@@ -77,13 +69,13 @@ export class Withdrawal {
 @Entity({ name: 'withdrawal_expenses' })
 @Index('withdrawal_expenses_unique_idx', ['withdrawalId', 'expenseId'], { unique: true })
 export class WithdrawalExpense {
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   withdrawalId: string;
 
   @ManyToOne(() => Withdrawal, (withdrawal) => withdrawal.id)
   withdrawal?: Withdrawal | null;
 
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   expenseId: string;
 
   @ManyToOne(() => Expense, (expense) => expense.id)

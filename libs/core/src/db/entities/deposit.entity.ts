@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { BankTransaction } from './bank-transaction.entity';
 import { Client } from './client.entity';
@@ -81,17 +73,17 @@ export class Deposit {
   @ManyToOne(() => Client, (client) => client.id)
   client?: Client | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 }
 
 @Entity({ name: 'deposit_invoices' })
 @Index('deposit_invoices_unique_idx', ['depositId', 'invoiceId'], { unique: true })
 export class DepositInvoice {
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   depositId: string;
 
   @ManyToOne(() => Deposit, (deposit) => deposit.id)

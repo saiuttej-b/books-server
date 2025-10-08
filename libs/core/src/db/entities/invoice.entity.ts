@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { Client, ClientContactPerson } from './client.entity';
 import { MediaFile } from './media-file.entity';
@@ -110,10 +102,10 @@ export class Invoice {
   @Column({ type: 'jsonb', nullable: true })
   otherDetails?: InvoiceOtherDetailsType | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   generatedPdf?: MediaFile | null;
@@ -125,13 +117,13 @@ export class Invoice {
 @Index('invoice_items_invoice_id_line_no_idx', ['invoiceId', 'lineNo'], { unique: true })
 @Index('invoice_items_invoice_id_details_idx', ['invoiceId', 'details'], { unique: true })
 export class InvoiceItem {
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   invoiceId: string;
 
   @ManyToOne(() => Invoice, (invoice) => invoice.id)
   invoice?: Invoice | null;
 
-  @PrimaryColumn({ type: 'int' })
+  @PrimaryColumn({ type: 'int', nullable: false })
   lineNo: number;
 
   @Column({ type: 'citext', nullable: false })

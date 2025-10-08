@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { Client, ClientContactPerson } from './client.entity';
 import { MediaFile } from './media-file.entity';
@@ -107,10 +99,10 @@ export class Quote {
   @Column({ type: 'jsonb', nullable: true })
   otherDetails?: QuoteOtherDetailsType | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   docs?: MediaFile[] | null;
@@ -120,13 +112,13 @@ export class Quote {
 @Index('quote_items_quote_id_line_no_idx', ['quoteId', 'lineNo'], { unique: true })
 @Index('quote_items_quote_id_details_idx', ['quoteId', 'details'], { unique: true })
 export class QuoteItem {
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   quoteId: string;
 
   @ManyToOne(() => Quote, (quote) => quote.id)
   quote?: Quote | null;
 
-  @PrimaryColumn({ type: 'int' })
+  @PrimaryColumn({ type: 'int', nullable: false })
   lineNo: number;
 
   @Column({ type: 'citext', nullable: false })

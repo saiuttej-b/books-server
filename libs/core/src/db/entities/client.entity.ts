@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Address } from './address.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
@@ -84,10 +76,10 @@ export class Client {
   @Column({ type: 'citext', nullable: true })
   remarks?: string | null;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
   docs?: MediaFile[] | null;
@@ -104,7 +96,7 @@ export class ClientContactPerson {
   @ManyToOne(() => Organization, (organization) => organization.id)
   organization?: Organization | null;
 
-  @PrimaryColumn({ type: 'char', length: 26 })
+  @Column({ type: 'char', length: 26, nullable: false })
   clientId: string;
 
   @ManyToOne(() => Client, (client) => client.id)
@@ -143,9 +135,9 @@ export class ClientContactPerson {
   @Column({ type: 'citext', nullable: true })
   department?: string | null;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 }

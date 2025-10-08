@@ -1,11 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { Client } from './client.entity';
 import { ExpenseType } from './expense-type.entity';
@@ -59,10 +52,10 @@ export class Expense {
   @ManyToOne(() => Client, (client) => client.id)
   client?: Client | null;
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
   docs?: MediaFile[] | null;
