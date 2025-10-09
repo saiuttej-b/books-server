@@ -1,3 +1,4 @@
+import { random } from 'lodash';
 import { ulid } from 'ulidx';
 
 /**
@@ -24,4 +25,14 @@ export function timeDiffMinutesDetails(fromTime: Date, toTime: Date): string {
  */
 export function generateId(date?: Date): string {
   return ulid(date?.getTime());
+}
+
+/**
+ * Generates a random OTP.
+ *
+ * @returns {string} - A string representing the OTP.
+ */
+export function generateOtp(): string {
+  const otp = random(0, 999999).toString().padStart(6, '0');
+  return otp;
 }

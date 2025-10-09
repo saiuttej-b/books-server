@@ -25,7 +25,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/books/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/books/tsconfig.app.json"
+        "tsConfigPath": "apps/books/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "../../**/*.hbs",
+            "outDir": "dist/apps/books/apps/books/src",
+            "watchAssets": true
+          }
+        ]
       }
     },
     "core": {

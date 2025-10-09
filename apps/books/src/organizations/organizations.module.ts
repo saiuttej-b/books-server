@@ -10,9 +10,6 @@ import { OrganizationsService } from './services/organizations.service';
 })
 export class OrganizationsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(OrganizationMiddleware)
-      .exclude('/organizations/current-org', '/auth')
-      .forRoutes('*path');
+    consumer.apply(OrganizationMiddleware).forRoutes('*path');
   }
 }

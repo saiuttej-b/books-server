@@ -1,0 +1,65 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Account Email Verification</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body style="font-family: 'Arial', sans-serif; background-color: #f4f4f4">
+    <div style='padding: 16px'>
+      <div
+        style='
+          max-width: 600px;
+          margin: 0 auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        '
+      >
+        <h2 style='color: #333; font-size: 24px; margin-bottom: 15px'>Email Verification Code</h2>
+        <p style='color: #555; font-size: 14px; margin-bottom: 15px; line-height: 1.5'>
+          Hello
+          {{email}},
+        </p>
+        <p style='color: #555; font-size: 14px; margin-bottom: 15px; line-height: 1.5'>
+          Thank you for creating an account with
+          {{appName}}! To complete the registration process, please use the following OTP (One-Time
+          Password) to verify your email address:
+        </p>
+        <p
+          style='
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 15px 0;
+            line-height: 1.5;
+          '
+        >
+          {{otp}}
+        </p>
+        <p style='color: #555; font-size: 14px; margin-bottom: 5px; line-height: 1.5'>
+          This OTP is valid for a limited time, so please use it promptly.
+        </p>
+        <p style='color: #d9534f; font-size: 14px; margin-bottom: 5px; line-height: 1.5'>
+          Note: This OTP will expire after 10 minutes.
+        </p>
+        <p style='color: #555; font-size: 14px; margin-bottom: 15px; line-height: 1.5'>
+          If you did not attempt to create an account with us, please disregard this email.
+        </p>
+        <div style='margin-top: 20px; color: #777'>
+          <p style='font-size: 14px; margin-bottom: 3px; line-height: 1.5'>
+            Thank you for choosing
+            {{appName}}!
+          </p>
+          <p style='font-size: 14px; line-height: 1.5'>The {{appName}} Team</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

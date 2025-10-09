@@ -75,6 +75,8 @@ export class AuthTokensService {
       expiresAt: props.expiresAt.toISOString(),
       metadata: props.metadata,
       userId: props.userId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
   }
 

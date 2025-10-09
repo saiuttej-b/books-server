@@ -5,6 +5,7 @@ import { AuthController } from './controllers/auth.controller';
 import { BooksUserAuthGuard } from './guards/books-user-auth.guard';
 import { UserAuthMiddleware } from './middleware/user-auth.middleware';
 import { AuthCheckService } from './services/auth-check.service';
+import { AuthRegistrationService } from './services/auth-registration.service';
 import { AuthService } from './services/auth.service';
 
 @Module({
@@ -13,6 +14,7 @@ import { AuthService } from './services/auth.service';
   providers: [
     AuthService,
     AuthCheckService,
+    AuthRegistrationService,
     {
       provide: APP_GUARD,
       useClass: BooksUserAuthGuard,

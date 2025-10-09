@@ -27,6 +27,9 @@ export const EnvSchema = z.object({
   AWS_S3_BUCKET_NAME: z.string(),
   AWS_S3_FILE_BASE_URL: z.string(),
 
+  MAILTRAP_TOKEN: z.string(),
+  MAILTRAP_SENDER_EMAIL: z.email(),
+
   // Optional Environment Variables
   BOOKS_SERVER_PORT: z.coerce.number().optional(),
 

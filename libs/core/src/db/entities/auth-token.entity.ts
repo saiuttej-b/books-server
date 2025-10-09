@@ -2,6 +2,7 @@ import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 export const AuthTokenTypes = {
   REFRESH_TOKEN: 'REFRESH_TOKEN',
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
 };
 
 @Entity({ name: 'auth_tokens' })
@@ -21,9 +22,6 @@ export class AuthToken {
 
   @Column({ type: 'jsonb', nullable: true })
   metadata?: Record<string, unknown> | null;
-
-  @Column({ type: 'boolean', default: false, nullable: false })
-  revoked: boolean;
 
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;

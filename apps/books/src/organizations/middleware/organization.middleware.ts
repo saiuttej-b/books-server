@@ -19,6 +19,9 @@ export class OrganizationMiddleware implements NestMiddleware {
     if (route.startsWith('/organizations') && !orgCheckEnabledRoutes.includes(route)) return next();
 
     const orgSubdomain = req.headers['x-org-subdomain'] as string;
+    if (!orgSubdomain) {
+      throw new UnprocessableEntityException('Organization subdomain is required in the request.');
+    }
 
     const orgUser = await this.orgRepo.findUserByUserIdAndSubdomainWithOrg({
       userId: this.requestStore.getUserId(),

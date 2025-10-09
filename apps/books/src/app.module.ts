@@ -1,6 +1,6 @@
 import { AppEnvType, EnvSchema } from '@app/core';
 import { AppDbModule } from '@app/infra';
-import { AppRequestStoreModule } from '@app/integrations';
+import { AppMailerModule, AppRequestStoreModule } from '@app/integrations';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EncryptionsModule } from '@saiuttej/nestjs-encryptions';
@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { BooksDbModule } from './db/db.module';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 @Module({
   imports: [
@@ -32,6 +33,14 @@ import { BooksDbModule } from './db/db.module';
     AppRequestStoreModule,
 
     /**
+     * Mailer Module
+     *
+     * Configured asynchronously to allow dynamic retrieval of mailer settings from environment variables.
+     * Provides email sending functionalities across the application.
+     */
+    AppMailerModule,
+
+    /**
      * Encryptions Module
      *
      * Configured asynchronously to allow dynamic retrieval of the encryption key from environment variables.
@@ -50,6 +59,7 @@ import { BooksDbModule } from './db/db.module';
     BooksDbModule,
 
     AuthModule,
+    OrganizationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

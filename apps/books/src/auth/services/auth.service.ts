@@ -119,7 +119,7 @@ export class AuthService {
 
     const { jwtSecret } = this.getAuthKeys();
 
-    const token = sign(payload, jwtSecret, { expiresIn: '1h' });
+    const token = sign(payload, jwtSecret, { expiresIn: '15m' });
     const authToken = await this.authTokenService.createToken({
       tokenType: AuthTokenTypes.REFRESH_TOKEN,
       expiresAt: this.authTokenService.getRefreshTokenExpirationTime(),
