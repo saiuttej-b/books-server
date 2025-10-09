@@ -1,5 +1,4 @@
 import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
-import { MediaFile } from './media-file.entity';
 import { User } from './user.entity';
 
 @Entity({ name: 'organizations' })
@@ -26,6 +25,9 @@ export class Organization {
 
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
-
-  docs?: MediaFile[] | null;
 }
+
+export const OrganizationChangeType = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+};

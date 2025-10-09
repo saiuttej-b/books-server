@@ -26,3 +26,7 @@ export class OrganizationUser {
   @Column({ type: 'varchar', length: 31, nullable: false })
   role: string;
 }
+
+export const OrganizationUserChangeType = {
+  OWNER: 'OWNER',
+};

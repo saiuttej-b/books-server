@@ -16,7 +16,7 @@ import { AppEnvType } from '../env';
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
         namingStrategy: new SnakeNamingStrategy(),
-        synchronize: true,
+        synchronize: false,
         logging: true,
         entities: [resolve(__dirname, 'entities', '*.entity.{ts,js}')],
         ...(configService.get('POSTGRES_SSL') !== 'false' && {

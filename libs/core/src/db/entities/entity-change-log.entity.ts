@@ -1,14 +1,22 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './user.entity';
 
+export type EntityChangeLogChangedField = {
+  fieldName: string;
+  oldValue: any;
+  newValue: any;
+};
+
 export type EntityChangeLogDetails = {
-  changedFields: {
-    fieldName: string;
-    oldValue: unknown;
-    newValue: unknown;
-  }[];
+  changedFields: EntityChangeLogChangedField[];
   changeMessages: string[];
-} & Record<string, unknown>;
+  customDetails?: Record<string, any>;
+};
+
+export const ChangeLogEntityName = Object.freeze({
+  ORGANIZATIONS: 'ORGANIZATIONS',
+  ORGANIZATION_USERS: 'ORGANIZATION_USERS',
+});
 
 @Entity({ name: 'entity_change_logs' })
 export class EntityChangeLog {
