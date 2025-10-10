@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClientsModule } from './clients/clients.module';
 import { BooksDbModule } from './db/db.module';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
     AuthModule,
     OrganizationsModule,
     ClientsModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

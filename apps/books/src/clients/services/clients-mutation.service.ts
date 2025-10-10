@@ -78,6 +78,7 @@ export class ClientsMutationService {
       entityId: client.id,
       changeType: ClientChangeType.ADDED,
       userId: this.requestStore.getUserId(),
+      organizationId: this.requestStore.getOrganizationId(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       details: {
@@ -99,6 +100,7 @@ export class ClientsMutationService {
         entityId: `${client.id}::${cp.id}`,
         changeType: ClientContactPersonChangeType.ADDED,
         userId: this.requestStore.getUserId(),
+        organizationId: this.requestStore.getOrganizationId(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         details: {
@@ -156,6 +158,7 @@ export class ClientsMutationService {
           entityId: client.id,
           changeType: ClientChangeType.UPDATED,
           userId: this.requestStore.getUserId(),
+          organizationId: this.requestStore.getOrganizationId(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           details: {
@@ -176,6 +179,7 @@ export class ClientsMutationService {
         }
 
         if (clientLog) {
+          client.updatedAt = new Date().toISOString();
           await this.clientRepo.update(client);
           await this.changeLogRepo.insertLogs([clientLog]);
         }
@@ -839,6 +843,7 @@ export class ClientsMutationService {
             entityId: `${client.id}::${cp.id}`,
             changeType: ClientContactPersonChangeType.ADDED,
             userId: this.requestStore.getUserId(),
+            organizationId: this.requestStore.getOrganizationId(),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             details: {
@@ -1030,6 +1035,7 @@ export class ClientsMutationService {
           entityId: `${client.id}::${cp.id}`,
           changeType: ClientContactPersonChangeType.UPDATED,
           userId: this.requestStore.getUserId(),
+          organizationId: this.requestStore.getOrganizationId(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           details: {
@@ -1055,6 +1061,7 @@ export class ClientsMutationService {
           entityId: `${client.id}::${rcp.id}`,
           changeType: ClientContactPersonChangeType.DELETED,
           userId: this.requestStore.getUserId(),
+          organizationId: this.requestStore.getOrganizationId(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           details: {

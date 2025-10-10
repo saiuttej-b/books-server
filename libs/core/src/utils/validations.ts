@@ -343,3 +343,45 @@ export function isValidGSTNumber(gstNumber?: string | null) {
     errors,
   };
 }
+
+/**
+ * Validates if the given code is valid based on certain criteria.
+ *
+ * @param code - code to validate (optional)
+ */
+export function isValidCode(code?: string | null) {
+  code = code || '';
+
+  const validations = {
+    maxLength: code.length <= 10,
+    minLength: code.length >= 2,
+    format: /^[A-Z0-9-_]+$/.test(code),
+    whitespaces: !/\s/.test(code),
+    startWithLetter: /^[A-Z]/.test(code),
+  };
+  const errors: string[] = [];
+
+  if (!validations.minLength) {
+    errors.push('Code must be at least 2 characters long.');
+  }
+  if (!validations.maxLength) {
+    errors.push('Code must be at most 10 characters long.');
+  }
+  if (!validations.format) {
+    errors.push(
+      'Invalid code format. Only uppercase letters, numbers, hyphens, and underscores are allowed.',
+    );
+  }
+  if (!validations.whitespaces) {
+    errors.push('Code must not contain any whitespace characters.');
+  }
+  if (!validations.startWithLetter) {
+    errors.push('Code must start with an uppercase letter.');
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}

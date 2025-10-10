@@ -18,6 +18,9 @@ export const ChangeLogEntityName = Object.freeze({
   ORGANIZATION_USERS: 'ORGANIZATION_USERS',
   CLIENTS: 'CLIENTS',
   CLIENT_CONTACT_PERSONS: 'CLIENT_CONTACT_PERSONS',
+  PROJECTS: 'PROJECTS',
+  QUOTES: 'QUOTES',
+  INVOICES: 'INVOICES',
 });
 
 @Entity({ name: 'entity_change_logs' })
@@ -36,6 +39,9 @@ export class EntityChangeLog {
 
   @Column({ type: 'char', length: 26, nullable: false })
   userId: string;
+
+  @Column({ type: 'char', length: 26, nullable: true })
+  organizationId?: string | null;
 
   @ManyToOne(() => User, (user) => user.id)
   user?: User | null;

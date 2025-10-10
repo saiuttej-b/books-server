@@ -5,6 +5,7 @@ import { Organization } from './organization.entity';
 
 @Entity({ name: 'projects' })
 @Index('projects_org_code_idx', ['organizationId', 'code'], { unique: true })
+@Index('projects_org_name_idx', ['organizationId', 'name'], { unique: true })
 export class Project {
   @PrimaryColumn({ type: 'char', length: 26 })
   id: string;
@@ -17,6 +18,9 @@ export class Project {
 
   @Column({ type: 'citext', nullable: false })
   name: string;
+
+  @Column({ type: 'citext', nullable: false })
+  displayName: string;
 
   @Column({ type: 'citext', nullable: false })
   code: string;
@@ -41,3 +45,8 @@ export class Project {
 
   docs?: MediaFile[] | null;
 }
+
+export const ProjectChangeType = {
+  ADDED: 'ADDED',
+  UPDATED: 'UPDATED',
+};
