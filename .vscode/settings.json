@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["citext", "gstin", "HDFC", "ifsc", "nodenext", "timestamptz", "unrs"],
+  "cSpell.words": ["citext", "gstin", "HDFC", "ifsc", "ILIKE", "nodenext", "timestamptz", "unrs"],
   "cSpell.ignorePaths": [
     "package-lock.json",
     "node_modules",

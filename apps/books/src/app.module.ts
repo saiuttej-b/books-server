@@ -7,6 +7,7 @@ import { EncryptionsModule } from '@saiuttej/nestjs-encryptions';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { ClientsModule } from './clients/clients.module';
 import { BooksDbModule } from './db/db.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 
@@ -60,6 +61,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
 
     AuthModule,
     OrganizationsModule,
+    ClientsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

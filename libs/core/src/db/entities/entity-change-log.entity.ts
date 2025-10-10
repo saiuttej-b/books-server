@@ -16,6 +16,8 @@ export type EntityChangeLogDetails = {
 export const ChangeLogEntityName = Object.freeze({
   ORGANIZATIONS: 'ORGANIZATIONS',
   ORGANIZATION_USERS: 'ORGANIZATION_USERS',
+  CLIENTS: 'CLIENTS',
+  CLIENT_CONTACT_PERSONS: 'CLIENT_CONTACT_PERSONS',
 });
 
 @Entity({ name: 'entity_change_logs' })
@@ -32,9 +34,6 @@ export class EntityChangeLog {
   @Column({ type: 'citext', nullable: false })
   changeType: string;
 
-  @Column({ type: 'jsonb', nullable: true })
-  details?: EntityChangeLogDetails | null;
-
   @Column({ type: 'char', length: 26, nullable: false })
   userId: string;
 
@@ -46,4 +45,7 @@ export class EntityChangeLog {
 
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
+
+  @Column({ type: 'jsonb', nullable: false })
+  details: EntityChangeLogDetails;
 }

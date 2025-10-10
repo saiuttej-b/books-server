@@ -1,4 +1,4 @@
-import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { Address } from './address.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
@@ -68,10 +68,10 @@ export class Client {
    */
 
   @Column(() => Address)
-  billingAddress?: Address | null;
+  billingAddress: Address;
 
   @Column(() => Address)
-  shippingAddress?: Address | null;
+  shippingAddress: Address;
 
   @Column({ type: 'citext', nullable: true })
   remarks?: string | null;
@@ -81,6 +81,9 @@ export class Client {
 
   @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
+
+  @OneToMany(() => ClientContactPerson, (contact) => contact.client, { onDelete: 'CASCADE' })
+  contactPersons?: ClientContactPerson[] | null;
 
   docs?: MediaFile[] | null;
 }
@@ -141,3 +144,14 @@ export class ClientContactPerson {
   @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 }
+
+export const ClientChangeType = {
+  ADDED: 'ADDED',
+  UPDATED: 'UPDATED',
+};
+
+export const ClientContactPersonChangeType = {
+  ADDED: 'ADDED',
+  UPDATED: 'UPDATED',
+  DELETED: 'DELETED',
+};

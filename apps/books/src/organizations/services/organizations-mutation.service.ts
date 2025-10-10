@@ -49,10 +49,10 @@ export class OrganizationsMutationService {
     const orgLog = this.changeLogRepo.instance({
       entityName: ChangeLogEntityName.ORGANIZATIONS,
       entityId: org.id,
+      changeType: OrganizationChangeType.CREATE,
       userId: this.requestStore.getUserId(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      changeType: OrganizationChangeType.CREATE,
       details: {
         changedFields: [],
         changeMessages: [`Organization "${org.name}" created by {{user.fullName}}`],
@@ -64,10 +64,10 @@ export class OrganizationsMutationService {
     const orgUserLog = this.changeLogRepo.instance({
       entityName: ChangeLogEntityName.ORGANIZATION_USERS,
       entityId: orgUser.organizationId + '::' + orgUser.userId,
+      changeType: OrganizationUserChangeType.OWNER,
       userId: this.requestStore.getUserId(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      changeType: OrganizationUserChangeType.OWNER,
       details: {
         changedFields: [],
         changeMessages: [`{{user.fullName}} added as OWNER to organization "${org.name}"`],
@@ -83,7 +83,7 @@ export class OrganizationsMutationService {
     });
 
     return {
-      id: org.id,
+      organizationId: org.id,
       subdomain: org.subdomain,
       message: `Organization "${org.name}" created successfully.`,
     };
@@ -166,10 +166,10 @@ export class OrganizationsMutationService {
     const orgLog = this.changeLogRepo.instance({
       entityName: ChangeLogEntityName.ORGANIZATIONS,
       entityId: org.id,
+      changeType: OrganizationChangeType.UPDATE,
       userId: this.requestStore.getUserId(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      changeType: OrganizationChangeType.UPDATE,
       details: {
         changedFields,
         changeMessages,

@@ -36,3 +36,13 @@ export function generateOtp(): string {
   const otp = random(0, 999999).toString().padStart(6, '0');
   return otp;
 }
+
+export function personFullName(props: {
+  salutation?: string | null;
+  firstName: string;
+  lastName?: string | null;
+}) {
+  return `${props.salutation ? props.salutation + ' ' : ''}${props.firstName}${
+    props.lastName ? ' ' + props.lastName : ''
+  }`;
+}

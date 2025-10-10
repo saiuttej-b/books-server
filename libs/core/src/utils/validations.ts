@@ -279,3 +279,67 @@ export function isValidEmailId(emailId?: string) {
     errors,
   };
 }
+
+/**
+ * Validates if the given PAN number is valid based on certain criteria (India-specific).
+ *
+ * @param panNumber - PAN number to validate (optional)
+ */
+export function isValidPanNumber(panNumber?: string | null) {
+  panNumber = panNumber || '';
+
+  const validations = {
+    length: panNumber.length === 10,
+    format: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panNumber),
+    whitespaces: !/\s/.test(panNumber),
+  };
+  const errors: string[] = [];
+
+  if (!validations.length) {
+    errors.push('PAN number must be exactly 10 characters long.');
+  }
+  if (!validations.format) {
+    errors.push('Invalid PAN number format.');
+  }
+  if (!validations.whitespaces) {
+    errors.push('PAN number must not contain any whitespace characters.');
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}
+
+/**
+ * Validates if the given GST number is valid based on certain criteria (India-specific).
+ *
+ * @param gstNumber - GST number to validate (optional)
+ */
+export function isValidGSTNumber(gstNumber?: string | null) {
+  gstNumber = gstNumber || '';
+
+  const validations = {
+    length: gstNumber.length === 15,
+    format: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(gstNumber),
+    whitespaces: !/\s/.test(gstNumber),
+  };
+  const errors: string[] = [];
+
+  if (!validations.length) {
+    errors.push('GST number must be exactly 15 characters long.');
+  }
+  if (!validations.format) {
+    errors.push('Invalid GST number format.');
+  }
+  if (!validations.whitespaces) {
+    errors.push('GST number must not contain any whitespace characters.');
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}
