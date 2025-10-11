@@ -26,8 +26,3 @@ export class Organization {
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 }
-
-export const OrganizationChangeType = {
-  CREATE: 'CREATE',
-  UPDATE: 'UPDATE',
-};

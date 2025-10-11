@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
-export class ProjectPostDto {
+export class ProjectUpdateDto {
   @ApiProperty({ default: '' })
   @Transform(({ value }: { value?: string | null }) => value?.trim())
   @IsString()
@@ -27,16 +27,17 @@ export class ProjectPostDto {
   @IsOptional()
   description?: string | null;
 
-  @ApiProperty({ default: null })
-  @Transform(({ value }: { value?: string | null }) => value?.trim())
-  @IsString()
-  @IsOptional()
-  clientId?: string | null;
-
   @ApiProperty({ default: true })
   @IsBoolean()
   @IsNotEmpty()
   isActive: boolean;
+}
+
+export class ProjectCreateDto extends ProjectUpdateDto {
+  @ApiProperty({ default: null })
+  @IsString()
+  @IsNotEmpty()
+  clientId: string;
 }
 
 export class ProjectsGetDto {

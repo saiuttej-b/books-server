@@ -1,6 +1,6 @@
-import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
-import { Client, ClientContactPerson } from './client.entity';
+import { ClientContactPerson } from './client.entity';
 import { MediaFile } from './media-file.entity';
 import { Organization } from './organization.entity';
 import { Project } from './project.entity';
@@ -22,12 +22,6 @@ export class Quote {
   organization?: Organization | null;
 
   @Column({ type: 'char', length: 26, nullable: false })
-  clientId: string;
-
-  @ManyToOne(() => Client, (client) => client.id)
-  client?: Client | null;
-
-  @Column({ type: 'char', length: 26, nullable: false })
   projectId: string;
 
   @ManyToOne(() => Project, (project) => project.id)
@@ -42,8 +36,11 @@ export class Quote {
   @Column({ type: 'date', nullable: true })
   expiryDate?: string | null;
 
-  @Column({ type: 'varchar', length: 5, nullable: false })
-  taxType: string;
+  @Column({ type: 'citext', nullable: true })
+  taxType?: string | null;
+
+  @Column({ type: 'citext', nullable: true })
+  taxSubType?: string | null;
 
   @Column({
     type: 'decimal',
@@ -79,18 +76,6 @@ export class Quote {
       from: (value) => convertToNumber(value),
     },
   })
-  subTotal: number;
-
-  @Column({
-    type: 'decimal',
-    precision: 25,
-    scale: 2,
-    nullable: false,
-    transformer: {
-      to: (value) => value,
-      from: (value) => convertToNumber(value),
-    },
-  })
   totalAmount: number;
 
   @Column({ type: 'citext', nullable: true })
@@ -105,12 +90,14 @@ export class Quote {
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
 
+  @OneToMany(() => QuoteItem, (item) => item.quote)
+  items?: QuoteItem[] | null;
+
   docs?: MediaFile[] | null;
 }
 
 @Entity({ name: 'quote_items' })
-@Index('quote_items_quote_id_line_no_idx', ['quoteId', 'lineNo'], { unique: true })
-@Index('quote_items_quote_id_details_idx', ['quoteId', 'details'], { unique: true })
+@Index('quote_items_quote_id_name_idx', ['quoteId', 'name'], { unique: true })
 export class QuoteItem {
   @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   quoteId: string;
@@ -122,7 +109,7 @@ export class QuoteItem {
   lineNo: number;
 
   @Column({ type: 'citext', nullable: false })
-  details: string;
+  name: string;
 
   @Column({ type: 'char', length: 10, nullable: true })
   sacNo?: string | null;

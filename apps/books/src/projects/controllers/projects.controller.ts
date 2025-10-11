@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ProjectPostDto, ProjectsGetDto } from '../dtos/projects.dto';
+import { ProjectCreateDto, ProjectUpdateDto, ProjectsGetDto } from '../dtos/projects.dto';
 import { ProjectsMutationService } from '../services/projects-mutation.service';
 import { ProjectsService } from '../services/projects.service';
 
@@ -11,12 +11,12 @@ export class ProjectsController {
   ) {}
 
   @Post()
-  addProject(@Body() body: ProjectPostDto) {
+  addProject(@Body() body: ProjectCreateDto) {
     return this.mutationService.addProject(body);
   }
 
   @Put(':id')
-  updateProject(@Body() body: ProjectPostDto, @Param('id') id: string) {
+  updateProject(@Body() body: ProjectUpdateDto, @Param('id') id: string) {
     return this.mutationService.updateProject(body, id);
   }
 

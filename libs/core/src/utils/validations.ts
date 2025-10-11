@@ -5,6 +5,7 @@ import parsePhoneNumberFromString, {
   isValidPhoneNumber,
   validatePhoneNumberLength,
 } from 'libphonenumber-js/max';
+import { DateTime } from 'luxon';
 
 /**
  * Validates if the given slug is valid.
@@ -377,6 +378,126 @@ export function isValidCode(code?: string | null) {
   }
   if (!validations.startWithLetter) {
     errors.push('Code must start with an uppercase letter.');
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}
+
+/**
+ * Validates if the given value is a valid integer and meets
+ * optional min/max criteria.
+ *
+ * @param value - The value to validate.
+ * @param options - Optional min and max constraints.
+ */
+export function isValidInteger(value?: number | null, options?: { min?: number; max?: number }) {
+  const validations = {
+    isInteger: Number.isInteger(value),
+    min: true,
+    max: true,
+  };
+  const errors: string[] = [];
+
+  if (!validations.isInteger) {
+    errors.push('Value must be an integer.');
+  }
+
+  if (options?.min !== undefined && typeof value === 'number' && value < options.min) {
+    validations.min = false;
+    errors.push(`Value must be greater than or equal to ${options.min}.`);
+  }
+
+  if (options?.max !== undefined && typeof value === 'number' && value > options.max) {
+    validations.max = false;
+    errors.push(`Value must be less than or equal to ${options.max}.`);
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}
+
+/**
+ * Validates if the given value is a valid decimal number and
+ * meets optional min/max and decimal places criteria.
+ *
+ * @param value - The value to validate.
+ * @param options - Optional min, max, and maxDecimalPlaces constraints.
+ */
+export function isValidDecimal(
+  value?: number | null,
+  options?: { min?: number; max?: number; maxDecimalPlaces?: number },
+) {
+  const validations = {
+    isNumber: typeof value === 'number' && !isNaN(value),
+    min: true,
+    max: true,
+    maxDecimalPlaces: true,
+  };
+  const errors: string[] = [];
+
+  if (!validations.isNumber) {
+    errors.push('Value must be a valid number.');
+  }
+
+  if (options?.min !== undefined && typeof value === 'number' && value < options.min) {
+    validations.min = false;
+    errors.push(`Value must be greater than or equal to ${options.min}.`);
+  }
+
+  if (options?.max !== undefined && typeof value === 'number' && value > options.max) {
+    validations.max = false;
+    errors.push(`Value must be less than or equal to ${options.max}.`);
+  }
+
+  if (
+    options?.maxDecimalPlaces !== undefined &&
+    typeof value === 'number' &&
+    Number.isInteger(options.maxDecimalPlaces) &&
+    options.maxDecimalPlaces >= 0
+  ) {
+    const decimalPlaces = value.toString().split('.')[1]?.length || 0;
+    if (decimalPlaces > options.maxDecimalPlaces) {
+      validations.maxDecimalPlaces = false;
+      errors.push(`Value must have at most ${options.maxDecimalPlaces} decimal places.`);
+    }
+  }
+
+  return {
+    isValid: Object.values(validations).every((v) => v),
+    validations,
+    errors,
+  };
+}
+
+/**
+ * Validates if the given date string is in YYYY-MM-DD format and represents a valid date.
+ *
+ * @param dateString - The date string to validate (optional).
+ */
+export function isValidateDateString(dateString?: string | null) {
+  dateString = dateString || '';
+
+  const validations = {
+    format: /^\d{4}-\d{2}-\d{2}$/.test(dateString),
+    validDate: true,
+  };
+  const errors: string[] = [];
+
+  if (!validations.format) {
+    errors.push('Date must be in YYYY-MM-DD format.');
+  }
+
+  const val = DateTime.fromFormat(dateString, 'yyyy-MM-dd');
+  if (!val.isValid) {
+    validations.validDate = false;
+    errors.push(val.invalidExplanation || 'Invalid date.');
   }
 
   return {

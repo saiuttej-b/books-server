@@ -4,7 +4,6 @@ export * from './entities/bank-transaction.entity';
 export * from './entities/bank.entity';
 export * from './entities/client.entity';
 export * from './entities/deposit.entity';
-export * from './entities/entity-change-log.entity';
 export * from './entities/expense-type.entity';
 export * from './entities/expense.entity';
 export * from './entities/invoice.entity';

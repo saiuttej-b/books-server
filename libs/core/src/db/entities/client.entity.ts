@@ -82,7 +82,7 @@ export class Client {
   @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 
-  @OneToMany(() => ClientContactPerson, (contact) => contact.client, { onDelete: 'CASCADE' })
+  @OneToMany(() => ClientContactPerson, (contact) => contact.client)
   contactPersons?: ClientContactPerson[] | null;
 
   docs?: MediaFile[] | null;
@@ -144,14 +144,3 @@ export class ClientContactPerson {
   @Column({ type: 'timestamptz', nullable: false })
   updatedAt: string;
 }
-
-export const ClientChangeType = {
-  ADDED: 'ADDED',
-  UPDATED: 'UPDATED',
-};
-
-export const ClientContactPersonChangeType = {
-  ADDED: 'ADDED',
-  UPDATED: 'UPDATED',
-  DELETED: 'DELETED',
-};

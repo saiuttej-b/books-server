@@ -28,8 +28,8 @@ export class Project {
   @Column({ type: 'citext', nullable: true })
   description: string | null;
 
-  @Column({ type: 'char', length: 26, nullable: true })
-  clientId?: string | null;
+  @Column({ type: 'char', length: 26, nullable: false })
+  clientId: string;
 
   @ManyToOne(() => Client, (client) => client.id)
   client?: Client | null;
@@ -45,8 +45,3 @@ export class Project {
 
   docs?: MediaFile[] | null;
 }
-
-export const ProjectChangeType = {
-  ADDED: 'ADDED',
-  UPDATED: 'UPDATED',
-};

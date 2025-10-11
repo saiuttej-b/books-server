@@ -1,12 +1,5 @@
-import {
-  ChangeLogEntityName,
-  EntityChangeLogChangedField,
-  isValidSlug,
-  OrganizationChangeType,
-  OrganizationUserChangeType,
-  OrganizationUserRoles,
-} from '@app/core';
-import { DbService, EntityChangeLogRepository } from '@app/infra';
+import { isValidSlug, OrganizationUserRoles } from '@app/core';
+import { DbService } from '@app/infra';
 import { AppRequestStoreService } from '@app/integrations';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { OrganizationRepository } from '../../db/repositories/organization.repository';
@@ -18,7 +11,6 @@ export class OrganizationsMutationService {
   constructor(
     private readonly orgRepo: OrganizationRepository,
     private readonly requestStore: AppRequestStoreService,
-    private readonly changeLogRepo: EntityChangeLogRepository,
     private readonly dbService: DbService,
   ) {}
 
@@ -45,40 +37,10 @@ export class OrganizationsMutationService {
       role: OrganizationUserRoles.OWNER,
     });
 
-    /** Create change log instance for organization and organization user */
-    const orgLog = this.changeLogRepo.instance({
-      entityName: ChangeLogEntityName.ORGANIZATIONS,
-      entityId: org.id,
-      changeType: OrganizationChangeType.CREATE,
-      userId: this.requestStore.getUserId(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      details: {
-        changedFields: [],
-        changeMessages: [`Organization "${org.name}" created by {{user.fullName}}`],
-        customDetails: {
-          organization: org,
-        },
-      },
-    });
-    const orgUserLog = this.changeLogRepo.instance({
-      entityName: ChangeLogEntityName.ORGANIZATION_USERS,
-      entityId: orgUser.organizationId + '::' + orgUser.userId,
-      changeType: OrganizationUserChangeType.OWNER,
-      userId: this.requestStore.getUserId(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      details: {
-        changedFields: [],
-        changeMessages: [`{{user.fullName}} added as OWNER to organization "${org.name}"`],
-      },
-    });
-
     /** Use transaction to create organization, organization user and change logs */
     await this.dbService.transaction({
       execute: async () => {
         await this.orgRepo.create({ org: org, orgUser });
-        await this.changeLogRepo.insertLogs([orgLog, orgUserLog]);
       },
     });
 
@@ -121,69 +83,14 @@ export class OrganizationsMutationService {
     /** Validate the request body */
     await this.validateOrgPostBody(reqBody, id);
 
-    /**
-     * Track changes and prepare change log details
-     */
-    const changedFields: EntityChangeLogChangedField[] = [];
-    const changeMessages: string[] = [];
-
-    if (org.name !== reqBody.name) {
-      changedFields.push({
-        fieldName: 'name',
-        oldValue: org.name,
-        newValue: reqBody.name,
-      });
-      changeMessages.push(
-        `Organization name changed from "${org.name}" to "${reqBody.name}" by {{user.fullName}}`,
-      );
-      org.name = reqBody.name;
-    }
-    if (org.subdomain !== reqBody.subdomain) {
-      changedFields.push({
-        fieldName: 'subdomain',
-        oldValue: org.subdomain,
-        newValue: reqBody.subdomain,
-      });
-      changeMessages.push(
-        `Organization subdomain changed from "${org.subdomain}" to "${reqBody.subdomain}" by {{user.fullName}}`,
-      );
-      org.subdomain = reqBody.subdomain;
-    }
-
-    /**
-     * If no fields have changed, return early with a message
-     * indicating that no changes were detected.
-     */
-    if (changedFields.length === 0) {
-      return {
-        id: org.id,
-        subdomain: org.subdomain,
-        message: `No changes detected for organization "${org.name}".`,
-      };
-    }
-
-    /** Create change log instance for the organization update */
-    const orgLog = this.changeLogRepo.instance({
-      entityName: ChangeLogEntityName.ORGANIZATIONS,
-      entityId: org.id,
-      changeType: OrganizationChangeType.UPDATE,
-      userId: this.requestStore.getUserId(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      details: {
-        changedFields,
-        changeMessages,
-      },
-    });
-
-    /** Update the organization's updatedAt timestamp */
+    org.name = reqBody.name;
+    org.subdomain = reqBody.subdomain;
     org.updatedAt = new Date().toISOString();
 
     /** Use database transaction to update the organization and adding the change log */
     await this.dbService.transaction({
       execute: async () => {
         await this.orgRepo.update(org);
-        await this.changeLogRepo.insertLogs([orgLog]);
       },
     });
 

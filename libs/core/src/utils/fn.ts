@@ -37,6 +37,14 @@ export function generateOtp(): string {
   return otp;
 }
 
+/**
+ * Generates person's full name.
+ *
+ * @param {Object} props - The properties for generating the full name.
+ * @param {string} [props.salutation] - The salutation (e.g., Mr., Ms., Dr.).
+ * @param {string} props.firstName - The first name.
+ * @param {string} [props.lastName] - The last name.
+ */
 export function personFullName(props: {
   salutation?: string | null;
   firstName: string;

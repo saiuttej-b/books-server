@@ -2,10 +2,12 @@ import { Global, Module, Provider } from '@nestjs/common';
 import { PostgresClientRepository } from './postgres-repositories/postgres-client.repository';
 import { PostgresOrganizationRepository } from './postgres-repositories/postgres-organization.repository';
 import { PostgresProjectRepository } from './postgres-repositories/postgres-project.repository';
+import { PostgresQuoteRepository } from './postgres-repositories/postgres-quote.repository';
 import { PostgresUserRepository } from './postgres-repositories/postgres-user.repository';
 import { ClientRepository } from './repositories/client.repository';
 import { OrganizationRepository } from './repositories/organization.repository';
 import { ProjectRepository } from './repositories/project.repository';
+import { QuoteRepository } from './repositories/quote.repository';
 import { UserRepository } from './repositories/user.repository';
 
 const repos: Provider[] = [
@@ -20,6 +22,10 @@ const repos: Provider[] = [
   {
     provide: ProjectRepository,
     useClass: PostgresProjectRepository,
+  },
+  {
+    provide: QuoteRepository,
+    useClass: PostgresQuoteRepository,
   },
   {
     provide: UserRepository,

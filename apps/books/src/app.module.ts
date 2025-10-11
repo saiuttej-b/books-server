@@ -11,6 +11,7 @@ import { ClientsModule } from './clients/clients.module';
 import { BooksDbModule } from './db/db.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ProjectsModule } from './projects/projects.module';
+import { QuotesModule } from './quotes/quotes.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { ProjectsModule } from './projects/projects.module';
     OrganizationsModule,
     ClientsModule,
     ProjectsModule,
+    QuotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

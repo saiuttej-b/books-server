@@ -31,6 +31,15 @@ export const TaxTypeOptions = {
   TCS: 'TCS',
 };
 
+export const TaxSubTypeOptions = [
+  {
+    key: 'PROFESSIONAL_FEES_10',
+    name: 'Professional Fees [10%]',
+    rate: 10,
+    type: TaxTypeOptions.TDS,
+  },
+];
+
 export type InvoiceItemTaxRateType = {
   key: string;
   name: string;
@@ -39,7 +48,7 @@ export type InvoiceItemTaxRateType = {
   group?: string;
 };
 
-export const InvoiceItemTaxRates: Record<string, InvoiceItemTaxRateType> = {
+export const InvoiceItemTaxRates = {
   NON_TAXABLE: {
     key: 'NON_TAXABLE',
     name: 'Non-Taxable',

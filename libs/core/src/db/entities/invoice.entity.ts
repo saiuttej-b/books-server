@@ -114,8 +114,7 @@ export class Invoice {
 }
 
 @Entity({ name: 'invoice_items' })
-@Index('invoice_items_invoice_id_line_no_idx', ['invoiceId', 'lineNo'], { unique: true })
-@Index('invoice_items_invoice_id_details_idx', ['invoiceId', 'details'], { unique: true })
+@Index('invoice_items_invoice_id_name_idx', ['invoiceId', 'name'], { unique: true })
 export class InvoiceItem {
   @PrimaryColumn({ type: 'char', length: 26, nullable: false })
   invoiceId: string;
@@ -127,7 +126,7 @@ export class InvoiceItem {
   lineNo: number;
 
   @Column({ type: 'citext', nullable: false })
-  details: string;
+  name: string;
 
   @Column({ type: 'char', length: 10, nullable: false })
   sacNo: string;
