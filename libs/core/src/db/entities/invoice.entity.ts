@@ -1,4 +1,4 @@
-import { Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import { convertToNumber } from '../../utils';
 import { Client, ClientContactPerson } from './client.entity';
 import { MediaFile } from './media-file.entity';
@@ -38,9 +38,6 @@ export class Invoice {
 
   @Column({ type: 'date', nullable: false })
   invoiceDate: string;
-
-  @Column({ type: 'varchar', length: 31, nullable: false })
-  dueTerm: string;
 
   @Column({ type: 'date', nullable: false })
   dueDate: string;
@@ -110,6 +107,9 @@ export class Invoice {
 
   @Column({ type: 'timestamptz', nullable: false })
   createdAt: string;
+
+  @OneToMany(() => InvoiceItem, (item) => item.invoice)
+  items?: InvoiceItem[] | null;
 
   generatedPdf?: MediaFile | null;
 
