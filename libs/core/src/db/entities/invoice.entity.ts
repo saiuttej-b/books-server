@@ -45,8 +45,11 @@ export class Invoice {
   @Column({ type: 'date', nullable: false })
   dueDate: string;
 
-  @Column({ type: 'varchar', length: 5, nullable: false })
-  taxType: string;
+  @Column({ type: 'citext', nullable: true })
+  advanceTaxType?: string | null;
+
+  @Column({ type: 'citext', nullable: true })
+  advanceTaxSubType?: string | null;
 
   @Column({
     type: 'decimal',
@@ -58,7 +61,7 @@ export class Invoice {
       from: (value) => convertToNumber(value),
     },
   })
-  taxRate: number;
+  advanceTaxRate: number;
 
   @Column({
     type: 'decimal',
@@ -70,7 +73,7 @@ export class Invoice {
       from: (value) => convertToNumber(value),
     },
   })
-  taxAmount: number;
+  advanceTaxAmount: number;
 
   @Column({
     type: 'decimal',

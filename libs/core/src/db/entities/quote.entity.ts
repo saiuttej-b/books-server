@@ -37,10 +37,10 @@ export class Quote {
   expiryDate?: string | null;
 
   @Column({ type: 'citext', nullable: true })
-  taxType?: string | null;
+  advanceTaxType?: string | null;
 
   @Column({ type: 'citext', nullable: true })
-  taxSubType?: string | null;
+  advanceTaxSubType?: string | null;
 
   @Column({
     type: 'decimal',
@@ -52,7 +52,7 @@ export class Quote {
       from: (value) => convertToNumber(value),
     },
   })
-  taxRate: number;
+  advanceTaxRate: number;
 
   @Column({
     type: 'decimal',
@@ -64,7 +64,19 @@ export class Quote {
       from: (value) => convertToNumber(value),
     },
   })
-  taxAmount: number;
+  advanceTaxAmount: number;
+
+  @Column({
+    type: 'decimal',
+    precision: 25,
+    scale: 2,
+    nullable: false,
+    transformer: {
+      to: (value) => value,
+      from: (value) => convertToNumber(value),
+    },
+  })
+  subTotal: number;
 
   @Column({
     type: 'decimal',

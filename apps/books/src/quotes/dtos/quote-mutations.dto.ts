@@ -1,4 +1,4 @@
-import { InvoiceItemTaxRates, TaxTypeOptions } from '@app/core';
+import { AdvanceTaxTypeOptions, InvoiceItemTaxRates } from '@app/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
@@ -90,29 +90,35 @@ export class QuotePostDto {
   @IsOptional()
   expiryDate?: string | null;
 
-  @ApiProperty({ default: TaxTypeOptions.TDS })
-  @IsIn(Object.values(TaxTypeOptions))
+  @ApiProperty({ default: AdvanceTaxTypeOptions.TDS })
+  @IsIn(Object.values(AdvanceTaxTypeOptions))
   @IsString()
   @IsOptional()
-  taxType?: string | null;
+  advanceTaxType?: string | null;
 
   @ValidateIf((o) => o.taxType)
   @ApiProperty({ default: '' })
   @IsString()
   @IsOptional()
-  taxSubType?: string | null;
+  advanceTaxSubType?: string | null;
 
   @ApiProperty({ default: 0 })
   @Min(0)
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsNotEmpty()
-  taxRate: number;
+  advanceTaxRate: number;
 
   @ApiProperty({ default: 0 })
   @Min(0)
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsNotEmpty()
-  taxAmount: number;
+  advanceTaxAmount: number;
+
+  @ApiProperty({ default: 0 })
+  @Min(0)
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNotEmpty()
+  subTotal: number;
 
   @ApiProperty({ default: 0 })
   @Min(0)

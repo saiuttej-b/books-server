@@ -1,4 +1,6 @@
 import {
+  AdvanceTaxSubTypeOptions,
+  AdvanceTaxTypeOptions,
   ClientContactPerson,
   InvoiceItemTaxRates,
   InvoiceItemTaxRateType,
@@ -6,8 +8,6 @@ import {
   isValidCode,
   isValidDecimal,
   isValidInteger,
-  TaxSubTypeOptions,
-  TaxTypeOptions,
 } from '@app/core';
 import { DbService } from '@app/infra';
 import { AppRequestStoreService } from '@app/integrations';
@@ -37,10 +37,11 @@ export class QuotesMutationService {
       quoteNo: reqBody.quoteNo,
       issueDate: reqBody.issueDate,
       expiryDate: reqBody.expiryDate ?? null,
-      taxType: reqBody.taxType ?? null,
-      taxSubType: reqBody.taxSubType ?? null,
-      taxRate: reqBody.taxRate,
-      taxAmount: reqBody.taxAmount,
+      advanceTaxType: reqBody.advanceTaxType ?? null,
+      advanceTaxSubType: reqBody.advanceTaxSubType ?? null,
+      advanceTaxRate: reqBody.advanceTaxRate,
+      advanceTaxAmount: reqBody.advanceTaxAmount,
+      subTotal: reqBody.subTotal,
       totalAmount: reqBody.totalAmount,
       termsAndConditions: reqBody.termsAndConditions ?? null,
       otherDetails: {
@@ -93,10 +94,11 @@ export class QuotesMutationService {
     quote.quoteNo = reqBody.quoteNo;
     quote.issueDate = reqBody.issueDate;
     quote.expiryDate = reqBody.expiryDate ?? null;
-    quote.taxType = reqBody.taxType ?? null;
-    quote.taxSubType = reqBody.taxSubType ?? null;
-    quote.taxRate = reqBody.taxRate;
-    quote.taxAmount = reqBody.taxAmount;
+    quote.advanceTaxType = reqBody.advanceTaxType ?? null;
+    quote.advanceTaxSubType = reqBody.advanceTaxSubType ?? null;
+    quote.advanceTaxRate = reqBody.advanceTaxRate;
+    quote.advanceTaxAmount = reqBody.advanceTaxAmount;
+    quote.subTotal = reqBody.subTotal;
     quote.totalAmount = reqBody.totalAmount;
     quote.termsAndConditions = reqBody.termsAndConditions ?? null;
     quote.otherDetails = {
@@ -221,62 +223,79 @@ export class QuotesMutationService {
       }
     });
 
-    if (reqBody.taxType) {
-      if (!Object.values(TaxTypeOptions).includes(reqBody.taxType)) {
+    const itemsTotalPrice = round(
+      reqBody.items.reduce((sum, item) => sum + item.price, 0),
+      2,
+    );
+    if (itemsTotalPrice !== reqBody.subTotal) {
+      throw new BadRequestException(
+        `Subtotal should be equal to sum of item prices = ${itemsTotalPrice}`,
+      );
+    }
+
+    if (reqBody.advanceTaxType) {
+      if (!Object.values(AdvanceTaxTypeOptions).includes(reqBody.advanceTaxType)) {
         throw new BadRequestException(
-          `Tax type is not valid, supported values are: ${Object.values(TaxTypeOptions).join(', ')}`,
+          `Advance Tax type is not valid, supported values are: ${Object.values(AdvanceTaxTypeOptions).join(', ')}`,
         );
       }
 
-      const allSubTypes = TaxSubTypeOptions.filter((t) => t.type === reqBody.taxType);
+      const allSubTypes = AdvanceTaxSubTypeOptions.filter((t) => t.type === reqBody.advanceTaxType);
       if (allSubTypes.length === 0) {
-        throw new BadRequestException(`No tax subtypes found for the selected tax type`);
+        throw new BadRequestException(
+          `No ${reqBody.advanceTaxType} subtypes found for the selected tax type`,
+        );
       }
 
-      if (!reqBody.taxSubType) {
-        throw new BadRequestException(`Tax subtype is required when tax type is provided`);
+      if (!reqBody.advanceTaxSubType) {
+        throw new BadRequestException(`Advance Tax subtype is required when tax type is provided`);
       }
-      const subType = allSubTypes.find((t) => t.key === reqBody.taxSubType);
+      const subType = allSubTypes.find((t) => t.key === reqBody.advanceTaxSubType);
       if (!subType) {
         throw new BadRequestException(
-          `Tax subtype is not valid, supported values for selected tax type ${reqBody.taxType} are: ${allSubTypes
+          `Advance Tax subtype is not valid, supported values for selected tax type ${reqBody.advanceTaxType} are: ${allSubTypes
             .map((t) => t.name)
             .join(', ')}`,
         );
       }
 
-      if (reqBody.taxRate !== subType.rate) {
+      if (reqBody.advanceTaxRate !== subType.rate) {
         throw new BadRequestException(
           `Tax subtype rate should be equal to selected tax subtype ${subType.name} = ${subType.rate}`,
         );
       }
+
+      const originalTaxAmount = round(
+        round(reqBody.subTotal * (reqBody.advanceTaxRate / 100), 2),
+        2,
+      );
+      if (originalTaxAmount !== reqBody.advanceTaxAmount) {
+        throw new BadRequestException(
+          `Tax amount should be equal to subtotal x tax rate / 100 = ${reqBody.subTotal} x ${reqBody.advanceTaxRate} / 100 = ${originalTaxAmount}`,
+        );
+      }
     } else {
-      if (reqBody.taxRate !== 0) {
+      if (reqBody.advanceTaxRate !== 0) {
         throw new BadRequestException(`Tax rate should be 0 when tax type is not provided`);
+      }
+
+      if (reqBody.advanceTaxAmount !== 0) {
+        throw new BadRequestException(`Tax amount should be 0 when tax type is not provided`);
       }
     }
 
-    const itemsTotalPrice = round(
-      reqBody.items.reduce((sum, item) => sum + item.price, 0),
-      2,
-    );
-    const originalTaxAmount = round(itemsTotalPrice * (reqBody.taxRate / 100), 2);
-    if (originalTaxAmount !== reqBody.taxAmount) {
-      throw new BadRequestException(
-        `Tax amount should be equal to sum of item prices x tax rate / 100 = ${itemsTotalPrice} x ${reqBody.taxRate} / 100 = ${originalTaxAmount}`,
-      );
-    }
-
     const originalTotalAmount = round(
-      reqBody.items.reduce((sum, item) => sum + item.totalAmount, 0) + reqBody.taxAmount,
+      reqBody.items.reduce((sum, item) => sum + item.totalAmount, 0) +
+        (reqBody.advanceTaxType === AdvanceTaxTypeOptions.TCS ? 1 : -1) * reqBody.advanceTaxAmount,
       2,
     );
     if (originalTotalAmount !== reqBody.totalAmount) {
       throw new BadRequestException(
-        `Total amount should be equal to sum of item total amounts (with GST) + tax amount = ${reqBody.items.reduce(
-          (sum, item) => sum + item.totalAmount,
-          0,
-        )} + ${reqBody.taxAmount} = ${originalTotalAmount}`,
+        `Total amount should be equal to sum of item total amounts ${reqBody.items
+          .reduce((sum, item) => sum + item.totalAmount, 0)
+          .toFixed(2)} ${
+          reqBody.advanceTaxType === AdvanceTaxTypeOptions.TCS ? '+' : '-'
+        } advance tax amount ${reqBody.advanceTaxAmount.toFixed(2)} = ${originalTotalAmount}`,
       );
     }
 

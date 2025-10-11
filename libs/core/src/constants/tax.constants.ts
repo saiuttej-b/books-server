@@ -26,17 +26,17 @@ export const GSTTreatmentOptions = {
   },
 };
 
-export const TaxTypeOptions = {
+export const AdvanceTaxTypeOptions = {
   TDS: 'TDS',
   TCS: 'TCS',
 };
 
-export const TaxSubTypeOptions = [
+export const AdvanceTaxSubTypeOptions = [
   {
     key: 'PROFESSIONAL_FEES_10',
     name: 'Professional Fees [10%]',
     rate: 10,
-    type: TaxTypeOptions.TDS,
+    type: AdvanceTaxTypeOptions.TDS,
   },
 ];
 
