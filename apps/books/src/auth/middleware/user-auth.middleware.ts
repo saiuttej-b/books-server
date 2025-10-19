@@ -12,7 +12,7 @@ export class UserAuthMiddleware implements NestMiddleware {
     private readonly requestStore: AppRequestStoreService,
   ) {}
 
-  async use(req: Request, _: Response, next: (error?: any) => void) {
+  async use(req: Request, _: Response, next: (error?: unknown) => void) {
     let route = req.originalUrl.split('?')[0];
     if (route.startsWith('/api')) route = route.slice(4);
     if (route.startsWith('/auth') && !authEnabledRoutes.includes(route)) return next();

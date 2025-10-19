@@ -27,7 +27,7 @@ export class AppRequestStoreMiddleware implements NestMiddleware {
    * @param {Function} next - Next function
    * @returns {Promise<void>} Promise that resolves when the middleware is done
    */
-  async use(req: Request, _: Response, next: (error?: any) => void): Promise<void> {
+  async use(req: Request, _: Response, next: (error?: unknown) => void): Promise<void> {
     await this.storeService.session({
       execute: () => {
         this.service.setExpressRequest(req);

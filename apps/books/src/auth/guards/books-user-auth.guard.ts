@@ -20,8 +20,8 @@ export class BooksUserAuthGuard implements CanActivate {
   ) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const methodCheck = this.reflector.get(DISABLE_JWT_AUTH_GUARD, context.getHandler());
-    const classCheck = this.reflector.get(DISABLE_JWT_AUTH_GUARD, context.getClass());
+    const methodCheck = this.reflector.get<boolean>(DISABLE_JWT_AUTH_GUARD, context.getHandler());
+    const classCheck = this.reflector.get<boolean>(DISABLE_JWT_AUTH_GUARD, context.getClass());
     if (methodCheck || classCheck) return true;
 
     const user = this.requestStore.getUserOrNull();

@@ -101,7 +101,7 @@ export class InvoicePostDto {
   @IsOptional()
   advanceTaxType?: string | null;
 
-  @ValidateIf((o) => o.taxType)
+  @ValidateIf((o: InvoicePostDto) => o.advanceTaxType !== null)
   @ApiProperty({ default: '' })
   @IsString()
   @IsOptional()

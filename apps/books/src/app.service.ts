@@ -8,9 +8,9 @@ export class AppService {
 
   getRoot() {
     return {
-      appName: this.configService.get('APP_NAME'),
-      environment: this.configService.get('PROJECT_ENVIRONMENT'),
-      message: `Welcome to ${this.configService.get('APP_NAME')}!`,
+      appName: this.configService.get<string>('APP_NAME'),
+      environment: this.configService.get<string>('PROJECT_ENVIRONMENT'),
+      message: `Welcome to ${this.configService.get<string>('APP_NAME')}!`,
     };
   }
 }

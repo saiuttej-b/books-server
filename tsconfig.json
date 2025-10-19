@@ -23,21 +23,11 @@
     "noFallthroughCasesInSwitch": false,
     "strictPropertyInitialization": false,
     "paths": {
-      "@app/core": [
-        "libs/core/src"
-      ],
-      "@app/infra": [
-        "libs/infra/src"
-      ],
-      "@app/infra/*": [
-        "libs/infra/src/*"
-      ],
-      "@app/integrations": [
-        "libs/integrations/src"
-      ],
-      "@app/integrations/*": [
-        "libs/integrations/src/*"
-      ]
+      "@app/core": ["libs/core/src"],
+      "@app/infra": ["libs/infra/src"],
+      "@app/infra/*": ["libs/infra/src/*"],
+      "@app/integrations": ["libs/integrations/src"],
+      "@app/integrations/*": ["libs/integrations/src/*"]
     }
   }
 }

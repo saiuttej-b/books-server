@@ -38,11 +38,8 @@ export class AuthCheckService {
 
   getCurrentUser() {
     const user = this.requestStore.getUser();
-
-    const { password, ...publicDetails } = user;
-
     return {
-      user: publicDetails,
+      user: { ...user, password: undefined },
     };
   }
 

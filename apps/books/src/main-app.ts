@@ -1,4 +1,4 @@
-import { AppEnvType, Environments } from '@app/core';
+import { AppEnvType, Environments, GlobalExceptionFilter, LoggingInterceptor } from '@app/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -42,13 +42,17 @@ export async function createBooksApp() {
     const corsOrigin = configService.get<string>('CORS_ORIGIN');
 
     let allowed = false;
-    if (!origin || corsOrigin === '*' || corsOrigin?.split(',').includes(origin)) {
+    if (!origin || corsOrigin === '*') {
       allowed = true;
+    } else if (corsOrigin) {
+      const allowedOrigins = corsOrigin.split(',').map((o) => o.trim());
+      allowed = allowedOrigins.includes(origin);
     }
 
     callback(null, {
       origin: allowed,
       methods: 'GET,PUT,PATCH,POST,DELETE',
+      credentials: true,
     });
   });
 
@@ -56,6 +60,16 @@ export async function createBooksApp() {
    * Enable gzip compression for the application responses.
    */
   app.use(compression({ threshold: 0 }));
+
+  /**
+   * Register global exception filter for standardized error handling.
+   */
+  app.useGlobalFilters(new GlobalExceptionFilter());
+
+  /**
+   * Register global logging interceptor for request/response logging.
+   */
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   /**
    * Enables validation for all incoming requests using the ValidationPipe with the following options:

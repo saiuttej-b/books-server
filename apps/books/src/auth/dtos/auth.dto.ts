@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {
   @ApiProperty({ default: 'sample@gmail.com' })
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
   loginId: string;
 
@@ -22,7 +22,7 @@ export class RefreshAccessTokenDto {
 
 export class GoogleAuthenticationDto {
   @ApiProperty({ default: 'Google access token' })
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   accessToken: string;
 }

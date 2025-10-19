@@ -18,6 +18,6 @@ export class AppMailerService {
   }
 
   async sendEmail(props: SendEmailProps) {
-    return this.emailService.send({ emailData: props });
+    await this.emailService.send({ emailData: props });
   }
 }

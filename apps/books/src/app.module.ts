@@ -53,9 +53,11 @@ import { QuotesModule } from './quotes/quotes.module';
     EncryptionsModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppEnvType>) => {
-        return {
-          secret: configService.get<string>('ENCRYPTION_KEY') || 'default',
-        };
+        const secret = configService.get<string>('ENCRYPTION_KEY');
+        if (!secret) {
+          throw new Error('ENCRYPTION_KEY is required');
+        }
+        return { secret };
       },
     }),
 

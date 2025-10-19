@@ -10,8 +10,8 @@ import { AppMailerService } from './services/app-mailer.service';
     EmailsModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppEnvType>) => {
-        const token = configService.get('MAILTRAP_TOKEN') || '';
-        const senderEmail = configService.get('MAILTRAP_SENDER_EMAIL') || '';
+        const token = configService.get<string>('MAILTRAP_TOKEN') || '';
+        const senderEmail = configService.get<string>('MAILTRAP_SENDER_EMAIL') || '';
 
         return {
           clients: [

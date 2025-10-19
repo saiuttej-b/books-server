@@ -8,7 +8,8 @@
     "luxon",
     "nodenext",
     "timestamptz",
-    "unrs"
+    "unrs",
+    "ulidx"
   ],
   "cSpell.ignorePaths": [
     "package-lock.json",
