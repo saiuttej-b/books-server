@@ -1,11 +1,13 @@
 import { Global, Module, Provider } from '@nestjs/common';
 import { PostgresClientRepository } from './postgres-repositories/postgres-client.repository';
+import { PostgresExpenseTypeRepository } from './postgres-repositories/postgres-expense-type.repository';
 import { PostgresInvoiceRepository } from './postgres-repositories/postgres-invoice.repository';
 import { PostgresOrganizationRepository } from './postgres-repositories/postgres-organization.repository';
 import { PostgresProjectRepository } from './postgres-repositories/postgres-project.repository';
 import { PostgresQuoteRepository } from './postgres-repositories/postgres-quote.repository';
 import { PostgresUserRepository } from './postgres-repositories/postgres-user.repository';
 import { ClientRepository } from './repositories/client.repository';
+import { ExpenseTypeRepository } from './repositories/expense-type.repository';
 import { InvoiceRepository } from './repositories/invoice.repository';
 import { OrganizationRepository } from './repositories/organization.repository';
 import { ProjectRepository } from './repositories/project.repository';
@@ -16,6 +18,10 @@ const repos: Provider[] = [
   {
     provide: ClientRepository,
     useClass: PostgresClientRepository,
+  },
+  {
+    provide: ExpenseTypeRepository,
+    useClass: PostgresExpenseTypeRepository,
   },
   {
     provide: InvoiceRepository,

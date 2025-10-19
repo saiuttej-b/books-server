@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ClientsModule } from './clients/clients.module';
 import { BooksDbModule } from './db/db.module';
+import { ExpenseTypesModule } from './expense-types/expense-types.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ProjectsModule } from './projects/projects.module';
@@ -70,6 +71,7 @@ import { QuotesModule } from './quotes/quotes.module';
     ProjectsModule,
     InvoicesModule,
     QuotesModule,
+    ExpenseTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
