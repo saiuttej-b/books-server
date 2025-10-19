@@ -25,9 +25,6 @@ export class Expense {
   @Column({ type: 'date', nullable: false })
   transactionDate: string;
 
-  @Column({ type: 'citext', nullable: false })
-  expenseAccount: string;
-
   @Column({
     type: 'decimal',
     precision: 10,
