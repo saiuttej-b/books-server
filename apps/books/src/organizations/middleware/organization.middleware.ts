@@ -39,6 +39,9 @@ export class OrganizationMiddleware implements NestMiddleware {
       );
     }
 
+    this.requestStore.setOrganization(org);
+    this.requestStore.setOrganizationUser(orgUser);
+
     next();
   }
 }

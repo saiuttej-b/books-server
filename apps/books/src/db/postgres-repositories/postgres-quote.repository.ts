@@ -56,7 +56,7 @@ export class PostgresQuoteRepository implements QuoteRepository {
       where: {
         organizationId: props.organizationId,
         quoteNo: props.quoteNo,
-        id: props.excludeId ? Not(props.excludeId) : undefined,
+        ...(props.excludeId ? { id: Not(props.excludeId) } : {}),
       },
     });
     return count > 0;

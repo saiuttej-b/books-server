@@ -56,7 +56,7 @@ export class PostgresInvoiceRepository implements InvoiceRepository {
       where: {
         organizationId: props.organizationId,
         invoiceNo: props.invoiceNo,
-        id: props.excludeId ? Not(props.excludeId) : undefined,
+        ...(props.excludeId ? { id: Not(props.excludeId) } : {}),
       },
     });
     return count > 0;

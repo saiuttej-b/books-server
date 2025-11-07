@@ -38,7 +38,7 @@ export class PostgresOrganizationRepository implements OrganizationRepository {
     const count = await this.dbService.getManager().count(Organization, {
       where: {
         name: props.name,
-        ...(props.neId ? Not(props.neId) : {}),
+        ...(props.neId ? { id: Not(props.neId) } : {}),
       },
     });
     return count > 0;
@@ -48,7 +48,7 @@ export class PostgresOrganizationRepository implements OrganizationRepository {
     const count = await this.dbService.getManager().count(Organization, {
       where: {
         subdomain: props.subdomain,
-        ...(props.neId ? Not(props.neId) : {}),
+        ...(props.neId ? { id: Not(props.neId) } : {}),
       },
     });
     return count > 0;
@@ -62,9 +62,9 @@ export class PostgresOrganizationRepository implements OrganizationRepository {
     orgId: string;
     userId: string;
   }): Promise<OrganizationUser | null> {
-    return this.dbService
-      .getManager()
-      .findOne(OrganizationUser, { where: { organizationId: props.orgId, userId: props.userId } });
+    return this.dbService.getManager().findOne(OrganizationUser, {
+      where: { organizationId: props.orgId, userId: props.userId },
+    });
   }
 
   findByUserId(userId: string): Promise<Organization[]> {
@@ -81,7 +81,7 @@ export class PostgresOrganizationRepository implements OrganizationRepository {
     subdomain: string;
   }): Promise<OrganizationUser | null> {
     return this.dbService.getManager().findOne(OrganizationUser, {
-      where: { userId: props.userId },
+      where: { userId: props.userId, organization: { subdomain: props.subdomain } },
       relations: { organization: true },
     });
   }
