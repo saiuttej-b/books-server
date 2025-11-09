@@ -55,10 +55,24 @@ export class PostgresProjectRepository implements ProjectRepository {
     return count > 0;
   }
 
-  findById(props: { id: string; organizationId: string }): Promise<Project | null> {
-    return this.dbService.getManager().findOne(Project, {
-      where: { id: props.id, organizationId: props.organizationId },
-    });
+  findById(props: {
+    id: string;
+    organizationId: string;
+    loadClient?: boolean;
+  }): Promise<Project | null> {
+    const builder = this.dbService
+      .getManager()
+      .createQueryBuilder(Project, 'project')
+      .where('project.id = :id', { id: props.id })
+      .andWhere('project.organizationId = :organizationId', {
+        organizationId: props.organizationId,
+      });
+    if (props.loadClient) {
+      builder
+        .leftJoin('project.client', 'client')
+        .addSelect(['client.id', 'client.name', 'client.displayName']);
+    }
+    return builder.getOne();
   }
 
   async find(props: {
@@ -72,6 +86,8 @@ export class PostgresProjectRepository implements ProjectRepository {
     const builder = this.dbService
       .getManager()
       .createQueryBuilder(Project, 'project')
+      .leftJoin('project.client', 'client')
+      .addSelect(['client.id', 'client.name', 'client.displayName'])
       .where('project.organizationId = :organizationId', { organizationId: props.organizationId });
 
     if (props.search) {

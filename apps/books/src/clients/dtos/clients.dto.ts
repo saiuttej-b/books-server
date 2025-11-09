@@ -219,19 +219,19 @@ export class ClientPostDto {
   @IsOptional()
   remarks?: string | null;
 
-  @ApiProperty({ type: AddressPostDto, required: false })
+  @ApiProperty({ type: AddressPostDto, required: true })
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => AddressPostDto)
   billingAddress: AddressPostDto;
 
-  @ApiProperty({ type: AddressPostDto, required: false })
+  @ApiProperty({ type: AddressPostDto, required: true })
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => AddressPostDto)
   shippingAddress: AddressPostDto;
 
-  @ApiProperty({ type: [ClientContactPersonPostDto], default: [] })
+  @ApiProperty({ type: [ClientContactPersonPostDto] })
   @IsArray()
   @IsNotEmpty({ each: true })
   @IsNotEmpty()

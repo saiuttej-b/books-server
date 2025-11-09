@@ -21,6 +21,7 @@ export class ProjectsService {
     const project = await this.projectRepo.findById({
       id: projectId,
       organizationId: this.requestStore.getOrganizationId(),
+      loadClient: true,
     });
     if (!project) {
       throw new NotFoundException('Project not found or is not part of your organization');

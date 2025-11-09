@@ -105,7 +105,7 @@ export class ClientContactPerson {
   @ManyToOne(() => Client, (client) => client.id)
   client?: Client | null;
 
-  @Column({ type: 'char', length: 5, nullable: false })
+  @Column({ type: 'varchar', length: 5, nullable: false })
   salutation: string;
 
   @Column({ type: 'citext', nullable: false })

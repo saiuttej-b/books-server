@@ -123,7 +123,7 @@ export class QuoteItem {
   @Column({ type: 'citext', nullable: false })
   name: string;
 
-  @Column({ type: 'char', length: 10, nullable: true })
+  @Column({ type: 'varchar', length: 10, nullable: true })
   sacNo?: string | null;
 
   @Column({ type: 'int', nullable: false })

@@ -19,7 +19,11 @@ export abstract class ProjectRepository {
     excludeId?: string | null;
   }): Promise<boolean>;
 
-  abstract findById(props: { id: string; organizationId: string }): Promise<Project | null>;
+  abstract findById(props: {
+    id: string;
+    organizationId: string;
+    loadClient?: boolean;
+  }): Promise<Project | null>;
 
   abstract find(props: {
     search?: string | null;

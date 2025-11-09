@@ -131,7 +131,7 @@ export class InvoiceItem {
   @Column({ type: 'citext', nullable: false })
   name: string;
 
-  @Column({ type: 'char', length: 10, nullable: false })
+  @Column({ type: 'varchar', length: 10, nullable: false })
   sacNo: string;
 
   @Column({ type: 'int', nullable: false })
